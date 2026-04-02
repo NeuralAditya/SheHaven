@@ -59,7 +59,7 @@ export function RoutePlanner({
       <CardHeader className="pb-3 pt-4">
         <CardTitle className="text-lg font-bold flex items-center gap-2 text-primary">
           <Navigation className="w-5 h-5" />
-          Smart Route Planner
+          SheHaven Route Planner
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 pb-4">
