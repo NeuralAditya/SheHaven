@@ -12,6 +12,7 @@ interface MapProps {
   selectedRouteType?: "fastest" | "safest" | "both";
   showPoliceStations?: boolean;
   showWashrooms?: boolean;
+  showCctvZones?: boolean;
 }
 
 // ─── Static Delhi Data ─────────────────────────────────────────────────────────
@@ -36,6 +37,17 @@ const HYGIENE_WASHROOMS = [
   { id: "wc7", name: "Sarojini Nagar Market Washroom", lat: 28.5770, lng: 77.1934, type: "Free", open24h: false },
 ];
 
+// Delhi CCTV-monitored safe zones (well-surveilled areas)
+const CCTV_ZONES = [
+  { id: "cctv1", name: "Connaught Place", lat: 28.6315, lng: 77.2167, radius: 500, cameras: 120 },
+  { id: "cctv2", name: "India Gate / Rajpath", lat: 28.6129, lng: 77.2295, radius: 400, cameras: 80 },
+  { id: "cctv3", name: "Central Secretariat", lat: 28.6146, lng: 77.2118, radius: 350, cameras: 65 },
+  { id: "cctv4", name: "Karol Bagh Market", lat: 28.6509, lng: 77.1897, radius: 300, cameras: 55 },
+  { id: "cctv5", name: "Sarojini Nagar Market", lat: 28.5770, lng: 77.1934, radius: 300, cameras: 48 },
+  { id: "cctv6", name: "Chandni Chowk", lat: 28.6507, lng: 77.2295, radius: 400, cameras: 95 },
+  { id: "cctv7", name: "New Delhi Railway Station", lat: 28.6414, lng: 77.2193, radius: 350, cameras: 110 },
+];
+
 // ─── Custom Icons ──────────────────────────────────────────────────────────────
 
 const createPulsingIcon = () =>
@@ -53,9 +65,7 @@ const createPulsingIcon = () =>
 const createPoliceIcon = () =>
   L.divIcon({
     className: "",
-    html: `<div style="width:30px;height:30px;background:linear-gradient(135deg,#1e40af,#1d4ed8);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 8px rgba(30,64,175,0.6);font-size:15px">
-             🚔
-           </div>`,
+    html: `<div style="width:30px;height:30px;background:linear-gradient(135deg,#1e40af,#1d4ed8);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 8px rgba(30,64,175,0.6);font-size:15px">🚔</div>`,
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -63,11 +73,17 @@ const createPoliceIcon = () =>
 const createWashroomIcon = () =>
   L.divIcon({
     className: "",
-    html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#0e7490,#0891b2);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 8px rgba(14,116,144,0.6);font-size:14px">
-             🚻
-           </div>`,
+    html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#0e7490,#0891b2);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 8px rgba(14,116,144,0.6);font-size:14px">🚻</div>`,
     iconSize: [28, 28],
     iconAnchor: [14, 14],
+  });
+
+const createCctvIcon = () =>
+  L.divIcon({
+    className: "",
+    html: `<div style="width:26px;height:26px;background:linear-gradient(135deg,#065f46,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(5,150,105,0.7);font-size:13px">📹</div>`,
+    iconSize: [26, 26],
+    iconAnchor: [13, 13],
   });
 
 // ─── MapUpdater ────────────────────────────────────────────────────────────────
@@ -89,6 +105,7 @@ export function MapView({
   selectedRouteType = "both",
   showPoliceStations = true,
   showWashrooms = true,
+  showCctvZones = true,
 }: MapProps) {
   const { data: unsafeZonesResponse } = useGetUnsafeZones();
   const unsafeZones = unsafeZonesResponse?.zones || [];
@@ -125,6 +142,54 @@ export function MapView({
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
       />
       <MapUpdater center={[currentLocation.lat, currentLocation.lng]} />
+
+      {/* CCTV Safe Zones — shown as green circles */}
+      {showCctvZones &&
+        CCTV_ZONES.map((zone) => (
+          <Circle
+            key={zone.id}
+            center={[zone.lat, zone.lng]}
+            radius={zone.radius}
+            pathOptions={{
+              color: "#10b981",
+              fillColor: "#10b981",
+              fillOpacity: 0.10,
+              weight: 1.5,
+              dashArray: "4 3",
+            }}
+          >
+            <Popup>
+              <div className="font-semibold text-sm text-emerald-800">
+                📹 CCTV Safe Zone
+              </div>
+              <div className="font-medium text-sm mt-0.5">{zone.name}</div>
+              <div className="text-xs text-gray-600 mt-1">
+                {zone.cameras}+ surveillance cameras active
+              </div>
+              <div className="text-xs mt-1 font-bold text-emerald-700">
+                Well-monitored area — Safer at night
+              </div>
+            </Popup>
+          </Circle>
+        ))}
+
+      {/* CCTV Zone center markers */}
+      {showCctvZones &&
+        CCTV_ZONES.map((zone) => (
+          <Marker key={`cm-${zone.id}`} position={[zone.lat, zone.lng]} icon={createCctvIcon()}>
+            <Popup>
+              <div className="font-semibold text-sm text-emerald-800">
+                📹 {zone.name}
+              </div>
+              <div className="text-xs text-gray-600 mt-1">
+                {zone.cameras}+ CCTV cameras
+              </div>
+              <div className="text-xs mt-1 font-bold text-emerald-700">
+                Safe zone — Well-lit and monitored
+              </div>
+            </Popup>
+          </Marker>
+        ))}
 
       {/* User Location */}
       <Marker position={[currentLocation.lat, currentLocation.lng]} icon={createPulsingIcon()}>
@@ -190,13 +255,8 @@ export function MapView({
             <Popup>
               <div className="font-semibold text-sm text-blue-800">{ps.name}</div>
               <div className="text-xs text-gray-500 mt-1">Police Station</div>
-              <div className="text-xs font-medium text-blue-700 mt-1">
-                {ps.phone}
-              </div>
-              <a
-                href={`tel:100`}
-                className="text-xs text-white bg-blue-600 px-2 py-1 rounded mt-2 inline-block"
-              >
+              <div className="text-xs font-medium text-blue-700 mt-1">{ps.phone}</div>
+              <a href="tel:100" className="text-xs text-white bg-blue-600 px-2 py-1 rounded mt-2 inline-block">
                 Call 100
               </a>
             </Popup>

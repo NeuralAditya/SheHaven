@@ -20,6 +20,45 @@ const queryClient = new QueryClient();
 
 const DEFAULT_LOCATION = { lat: 28.6139, lng: 77.209 };
 
+/** Live clock hook — returns formatted time string updated every second */
+function useLiveClock() {
+  const [time, setTime] = useState(() => {
+    const now = new Date();
+    return now.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+    });
+  });
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+          timeZone: "Asia/Kolkata",
+        })
+      );
+    };
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return time;
+}
+
+/** Night check — between 8 PM and 6 AM IST */
+function isNightTime() {
+  const hour = new Date().getHours();
+  return hour >= 20 || hour < 6;
+}
+
 function Home() {
   const [currentLocation, setCurrentLocation] = useState(DEFAULT_LOCATION);
   const [routeData, setRouteData] = useState<RouteResponse | null>(null);
@@ -27,6 +66,9 @@ function Home() {
   const [isTripActive, setIsTripActive] = useState(false);
   const [isFakeCallOpen, setIsFakeCallOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+
+  const time = useLiveClock();
+  const nightMode = isNightTime();
 
   // Hide splash after 2.4s
   useEffect(() => {
@@ -57,7 +99,6 @@ function Home() {
 
   return (
     <>
-      {/* Splash screen overlaid on everything */}
       <SplashScreen visible={showSplash} />
 
       <div className="relative w-full h-[100dvh] overflow-hidden bg-background">
@@ -70,23 +111,42 @@ function Home() {
             selectedRouteType={selectedRouteType}
             showPoliceStations={true}
             showWashrooms={true}
+            showCctvZones={true}
           />
         </div>
 
         {/* Floating UI Layer */}
         <div className="absolute inset-0 z-10 pointer-events-none">
 
-          {/* Top-left: SheHaven header + Route Planner */}
+          {/* Top gradient + brand bar */}
           <div className="absolute top-0 left-0 right-0 pointer-events-auto">
-            {/* Brand header bar */}
             <div
               className="flex items-center gap-3 px-4 py-2"
               style={{
-                background: "linear-gradient(180deg, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0) 100%)",
+                background: "linear-gradient(180deg, rgba(15,23,42,0.94) 0%, rgba(15,23,42,0) 100%)",
               }}
             >
               <SheHavenLogo size="sm" variant="full" />
-              <span className="text-white/30 text-xs ml-auto">Delhi Safety Map</span>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Night indicator */}
+              {nightMode && (
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium mr-1">
+                  🌙 Night Mode
+                </span>
+              )}
+
+              {/* Live clock */}
+              <div className="flex flex-col items-end">
+                <span className="text-white font-mono text-xs font-semibold tracking-wider leading-none">
+                  {time}
+                </span>
+                <span className="text-white/40 text-[9px] tracking-wide mt-0.5">
+                  IST · Delhi
+                </span>
+              </div>
             </div>
           </div>
 
@@ -95,6 +155,7 @@ function Home() {
             <RoutePlanner
               currentLocation={currentLocation}
               onRouteFound={setRouteData}
+              onLocationUpdate={setCurrentLocation}
               selectedRouteType={selectedRouteType}
               onSelectRouteType={setSelectedRouteType}
               isTripActive={isTripActive}
