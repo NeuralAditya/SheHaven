@@ -183,6 +183,24 @@ function Home() {
           </div>
         </div>
 
+        {/* Bottom-left copyright — same style as OpenStreetMap attribution */}
+        <div
+          className="absolute bottom-0 left-0 z-20 pointer-events-auto"
+          style={{
+            background: "rgba(255,255,255,0.82)",
+            backdropFilter: "blur(4px)",
+            borderTopRightRadius: "6px",
+            padding: "2px 8px",
+            fontSize: "11px",
+            color: "#333",
+            lineHeight: "1.6",
+            borderTop: "1px solid rgba(0,0,0,0.10)",
+            borderRight: "1px solid rgba(0,0,0,0.10)",
+          }}
+        >
+          © Designed by <strong>Ariba &amp; Aditya</strong> · <span style={{ color: "#888" }}>SheHaven {new Date().getFullYear()}</span>
+        </div>
+
         {/* Fullscreen overlays */}
         <FakeCallScreen isOpen={isFakeCallOpen} onClose={() => setIsFakeCallOpen(false)} />
       </div>
