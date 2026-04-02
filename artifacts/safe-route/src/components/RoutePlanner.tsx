@@ -11,14 +11,21 @@ import { useToast } from "@/hooks/use-toast";
 
 // Named destinations in Delhi with coordinates
 const DESTINATIONS: Record<string, { lat: number; lng: number }> = {
-  "Connaught Place":    { lat: 28.6315, lng: 77.2167 },
-  "India Gate":         { lat: 28.6129, lng: 77.2295 },
-  "Chandni Chowk":      { lat: 28.6507, lng: 77.2295 },
-  "Hauz Khas":          { lat: 28.5494, lng: 77.2001 },
-  "Lajpat Nagar":       { lat: 28.5684, lng: 77.2435 },
-  "Sarojini Nagar":     { lat: 28.5770, lng: 77.1934 },
-  "Karol Bagh":         { lat: 28.6509, lng: 77.1897 },
-  "Rajiv Chowk Metro":  { lat: 28.6328, lng: 77.2192 },
+  "Connaught Place":          { lat: 28.6315, lng: 77.2167 },
+  "India Gate":               { lat: 28.6129, lng: 77.2295 },
+  "Chandni Chowk":            { lat: 28.6507, lng: 77.2295 },
+  "Hauz Khas":                { lat: 28.5494, lng: 77.2001 },
+  "Lajpat Nagar":             { lat: 28.5684, lng: 77.2435 },
+  "Sarojini Nagar Market":    { lat: 28.5770, lng: 77.1934 },
+  "Karol Bagh":               { lat: 28.6509, lng: 77.1897 },
+  "Rajiv Chowk Metro":        { lat: 28.6328, lng: 77.2192 },
+  "Janpath Market":           { lat: 28.6244, lng: 77.2156 },
+  "Dilli Haat INA":           { lat: 28.5736, lng: 77.2108 },
+  "Select Citywalk Saket":    { lat: 28.5272, lng: 77.2192 },
+  "Kamla Nagar Market":       { lat: 28.6841, lng: 77.2088 },
+  "Palika Bazaar":            { lat: 28.6330, lng: 77.2196 },
+  "Khan Market":              { lat: 28.6004, lng: 77.2279 },
+  "Ambience Mall Vasant Kunj":{ lat: 28.5200, lng: 77.1560 },
 };
 
 interface RoutePlannerProps {

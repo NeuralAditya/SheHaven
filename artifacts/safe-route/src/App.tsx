@@ -112,6 +112,7 @@ function Home() {
             showPoliceStations={true}
             showWashrooms={true}
             showCctvZones={true}
+            showShoppingPlaces={true}
           />
         </div>
 

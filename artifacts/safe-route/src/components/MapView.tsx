@@ -13,6 +13,7 @@ interface MapProps {
   showPoliceStations?: boolean;
   showWashrooms?: boolean;
   showCctvZones?: boolean;
+  showShoppingPlaces?: boolean;
 }
 
 // ─── Static Delhi Data ─────────────────────────────────────────────────────────
@@ -35,6 +36,101 @@ const HYGIENE_WASHROOMS = [
   { id: "wc5", name: "Chandni Chowk — Sulabh Complex", lat: 28.6507, lng: 77.2295, type: "Paid", open24h: true },
   { id: "wc6", name: "Kashmere Gate ISBT Facility", lat: 28.6639, lng: 77.2295, type: "Free", open24h: true },
   { id: "wc7", name: "Sarojini Nagar Market Washroom", lat: 28.5770, lng: 77.1934, type: "Free", open24h: false },
+];
+
+// ─── Women's Shopping Destinations in Delhi ───────────────────────────────────
+
+const WOMEN_SHOPPING = [
+  {
+    id: "sh1",
+    name: "Sarojini Nagar Market",
+    lat: 28.5770, lng: 77.1934,
+    type: "Street Market",
+    specialty: "Trendy clothes, kurtis, Western wear at budget prices",
+    timing: "10 AM – 8 PM (Closed Mon)",
+    safetyNote: "Well-lit, crowded — safe during day",
+  },
+  {
+    id: "sh2",
+    name: "Janpath Market",
+    lat: 28.6244, lng: 77.2156,
+    type: "Street Market",
+    specialty: "Ethnic wear, jewellery, handbags, handicrafts",
+    timing: "10 AM – 8 PM (Closed Sun)",
+    safetyNote: "Central Delhi — police presence nearby",
+  },
+  {
+    id: "sh3",
+    name: "Lajpat Nagar Central Market",
+    lat: 28.5684, lng: 77.2435,
+    type: "Market",
+    specialty: "Salwar suits, sarees, bridal wear, accessories",
+    timing: "10 AM – 8 PM (Closed Mon)",
+    safetyNote: "Busy market — stay alert in alleys after 7 PM",
+  },
+  {
+    id: "sh4",
+    name: "Dilli Haat — INA",
+    lat: 28.5736, lng: 77.2108,
+    type: "Craft Bazaar",
+    specialty: "Handloom, handicrafts, jewellery from all Indian states",
+    timing: "10:30 AM – 10 PM (All days)",
+    safetyNote: "Enclosed, well-managed — very safe",
+  },
+  {
+    id: "sh5",
+    name: "Select Citywalk Mall, Saket",
+    lat: 28.5272, lng: 77.2192,
+    type: "Shopping Mall",
+    specialty: "Zara, H&M, Mango, Indian brands, jewellery, footwear",
+    timing: "10 AM – 10 PM (All days)",
+    safetyNote: "CCTV, security guards — very safe",
+  },
+  {
+    id: "sh6",
+    name: "Kamla Nagar Market",
+    lat: 28.6841, lng: 77.2088,
+    type: "Street Market",
+    specialty: "College wear, indo-western, accessories, cosmetics",
+    timing: "10 AM – 8 PM (Closed Sun)",
+    safetyNote: "Near Delhi University — well populated during day",
+  },
+  {
+    id: "sh7",
+    name: "Palika Bazaar",
+    lat: 28.6330, lng: 77.2196,
+    type: "Underground Market",
+    specialty: "Clothes, cosmetics, electronics, accessories",
+    timing: "10 AM – 8 PM (Closed Mon)",
+    safetyNote: "Underground — go with company, avoid late evening",
+  },
+  {
+    id: "sh8",
+    name: "Khan Market",
+    lat: 28.6004, lng: 77.2279,
+    type: "Boutique Market",
+    specialty: "Designer boutiques, books, organic beauty, cafés",
+    timing: "10 AM – 9 PM (Closed Sun)",
+    safetyNote: "Premium area — very safe and well-patrolled",
+  },
+  {
+    id: "sh9",
+    name: "Ambience Mall, Vasant Kunj",
+    lat: 28.5200, lng: 77.1560,
+    type: "Shopping Mall",
+    specialty: "Fashion, cosmetics, jewellery, food court, multiplex",
+    timing: "11 AM – 10 PM (All days)",
+    safetyNote: "Indoor, CCTV, security — very safe",
+  },
+  {
+    id: "sh10",
+    name: "Karol Bagh Market",
+    lat: 28.6509, lng: 77.1897,
+    type: "Market",
+    specialty: "Lehengas, bridal jewellery, footwear, wedding shopping",
+    timing: "10 AM – 8 PM (Closed Sun)",
+    safetyNote: "Crowded market — keep belongings secure",
+  },
 ];
 
 // Delhi CCTV-monitored safe zones (well-surveilled areas)
@@ -86,6 +182,24 @@ const createCctvIcon = () =>
     iconAnchor: [13, 13],
   });
 
+const createShoppingIcon = (type: string) => {
+  const isMall = type === "Shopping Mall";
+  const isCraft = type === "Craft Bazaar";
+  const bg = isMall
+    ? "linear-gradient(135deg,#9333ea,#a855f7)"
+    : isCraft
+    ? "linear-gradient(135deg,#d97706,#f59e0b)"
+    : "linear-gradient(135deg,#db2777,#ec4899)";
+  const shadow = isMall ? "rgba(168,85,247,0.7)" : isCraft ? "rgba(245,158,11,0.7)" : "rgba(236,72,153,0.7)";
+  const emoji = isMall ? "🛍️" : isCraft ? "🎨" : "👗";
+  return L.divIcon({
+    className: "",
+    html: `<div style="width:30px;height:30px;background:${bg};border-radius:50%;display:flex;align-items:center;justify-content:center;border:2.5px solid white;box-shadow:0 2px 10px ${shadow};font-size:15px">${emoji}</div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
+};
+
 // ─── MapUpdater ────────────────────────────────────────────────────────────────
 
 function MapUpdater({ center }: { center: [number, number] }) {
@@ -106,6 +220,7 @@ export function MapView({
   showPoliceStations = true,
   showWashrooms = true,
   showCctvZones = true,
+  showShoppingPlaces = true,
 }: MapProps) {
   const { data: unsafeZonesResponse } = useGetUnsafeZones();
   const unsafeZones = unsafeZonesResponse?.zones || [];
@@ -286,6 +401,40 @@ export function MapView({
                 )}
               </div>
               <div className="text-xs text-gray-500 mt-1">Hygiene Washroom</div>
+            </Popup>
+          </Marker>
+        ))}
+
+      {/* Women's Shopping Places */}
+      {showShoppingPlaces &&
+        WOMEN_SHOPPING.map((shop) => (
+          <Marker key={shop.id} position={[shop.lat, shop.lng]} icon={createShoppingIcon(shop.type)}>
+            <Popup>
+              <div style={{ minWidth: 190 }}>
+                <div className="font-bold text-sm" style={{ color: shop.type === "Shopping Mall" ? "#7c3aed" : shop.type === "Craft Bazaar" ? "#b45309" : "#be185d" }}>
+                  {shop.type === "Shopping Mall" ? "🛍️" : shop.type === "Craft Bazaar" ? "🎨" : "👗"} {shop.name}
+                </div>
+                <div
+                  className="text-[10px] font-semibold px-1.5 py-0.5 rounded inline-block mt-1"
+                  style={{
+                    background: shop.type === "Shopping Mall" ? "#f3e8ff" : shop.type === "Craft Bazaar" ? "#fef3c7" : "#fce7f3",
+                    color: shop.type === "Shopping Mall" ? "#6d28d9" : shop.type === "Craft Bazaar" ? "#92400e" : "#9d174d",
+                  }}
+                >
+                  {shop.type}
+                </div>
+                <div className="text-xs text-gray-700 mt-1.5 font-medium">{shop.specialty}</div>
+                <div className="text-xs text-gray-500 mt-1">⏰ {shop.timing}</div>
+                <div
+                  className="text-xs mt-1.5 px-1.5 py-1 rounded font-medium"
+                  style={{
+                    background: shop.safetyNote.includes("very safe") ? "#d1fae5" : shop.safetyNote.includes("safe") ? "#ecfdf5" : "#fef9c3",
+                    color: shop.safetyNote.includes("very safe") ? "#065f46" : shop.safetyNote.includes("safe") ? "#047857" : "#713f12",
+                  }}
+                >
+                  🛡️ {shop.safetyNote}
+                </div>
+              </div>
             </Popup>
           </Marker>
         ))}
