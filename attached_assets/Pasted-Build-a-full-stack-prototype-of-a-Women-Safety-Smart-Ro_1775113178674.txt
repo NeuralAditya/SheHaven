@@ -1,0 +1,79 @@
+Build a full-stack prototype of a "Women Safety Smart Route App" with the following requirements:
+
+TECH STACK:
+- Frontend: React (Vite) + Tailwind CSS
+- Backend: FastAPI (Python)
+- Maps: Use OpenStreetMap (Leaflet.js) or Mapbox
+- Realtime: Use WebSockets or Firebase (optional)
+
+CORE FEATURES:
+
+1. Smart Safe Routing:
+- User enters source and destination
+- Show 2 routes:
+  a) Fastest route
+  b) Safest route
+- Simulate safety score using:
+  - Time of day (night = higher risk)
+  - Randomized "crime score" for areas
+- Color code:
+  - Green = Safe
+  - Blue = Fast
+  - Red = Risky zones
+
+2. SOS Emergency Button:
+- One-click button
+- On click:
+  - Send current location (latitude, longitude)
+  - Simulate sending alert to emergency contacts
+  - Start audio recording (mock if needed)
+
+3. Live Location Tracking:
+- Track user location in real-time
+- Display moving marker on map
+- Share link (mock) with live tracking
+
+4. Unsafe Zone Alerts:
+- Predefine some unsafe zones (hardcoded coordinates)
+- When user enters:
+  - Show alert popup
+  - Trigger vibration/sound (simulate)
+
+5. Simple AI Risk Score:
+- Create a backend API:
+  GET /risk-score?lat=...&lng=...
+- Return a safety score (0–100)
+- Logic can be simple weighted scoring
+
+BACKEND REQUIREMENTS:
+- FastAPI app with endpoints:
+  - /route (returns mock routes + safety score)
+  - /risk-score
+  - /sos (POST request)
+- Use JSON responses
+- Enable CORS
+
+FRONTEND REQUIREMENTS:
+- Clean modern UI
+- Map view as main screen
+- Input fields for source & destination
+- Buttons:
+  - "Find Route"
+  - "Start Trip"
+  - "SOS"
+- Show route polylines on map
+- Display safety score
+
+BONUS (if possible):
+- Voice trigger simulation ("Help me")
+- Fake call screen UI
+
+IMPORTANT:
+- Keep it as a working prototype, not production-level
+- Use mock/dummy data where APIs are complex
+- Code should be modular and clean
+- Add comments explaining logic
+
+OUTPUT:
+- Full working code (frontend + backend)
+- Instructions to run locally

@@ -1,15 +1,22 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Women Safety Smart Route API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: routes
+    description: Route planning operations
+  - name: risk
+    description: Risk assessment operations
+  - name: sos
+    description: Emergency SOS operations
+  - name: zones
+    description: Unsafe zone operations
 paths:
   /healthz:
     get:
@@ -24,6 +31,86 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /route:
+    post:
+      operationId: getRoute
+      tags: [routes]
+      summary: Get routes between two points
+      description: Returns fastest and safest routes with safety scores
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouteRequest"
+      responses:
+        "200":
+          description: Route options
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RouteResponse"
+
+  /risk-score:
+    get:
+      operationId: getRiskScore
+      tags: [risk]
+      summary: Get risk score for a location
+      description: Returns a safety score (0-100) for a given location
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Risk score for the location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskScoreResponse"
+
+  /sos:
+    post:
+      operationId: triggerSos
+      tags: [sos]
+      summary: Trigger SOS emergency alert
+      description: Sends emergency alert with current location to emergency contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SosRequest"
+      responses:
+        "200":
+          description: SOS alert sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SosResponse"
+
+  /unsafe-zones:
+    get:
+      operationId: getUnsafeZones
+      tags: [zones]
+      summary: Get predefined unsafe zones
+      description: Returns list of predefined unsafe zones with coordinates
+      responses:
+        "200":
+          description: List of unsafe zones
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnsafeZonesResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +121,186 @@ components:
       required:
         - status
 
+    RouteRequest:
+      type: object
+      properties:
+        sourceLat:
+          type: number
+        sourceLng:
+          type: number
+        destLat:
+          type: number
+        destLng:
+          type: number
+        sourceName:
+          type: string
+        destName:
+          type: string
+      required:
+        - sourceLat
+        - sourceLng
+        - destLat
+        - destLng
+
+    RoutePoint:
+      type: object
+      properties:
+        lat:
+          type: number
+        lng:
+          type: number
+      required:
+        - lat
+        - lng
+
+    Route:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [fastest, safest]
+        points:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoutePoint"
+        safetyScore:
+          type: number
+        distanceKm:
+          type: number
+        estimatedMinutes:
+          type: number
+        riskLevel:
+          type: string
+          enum: [low, medium, high]
+        color:
+          type: string
+      required:
+        - type
+        - points
+        - safetyScore
+        - distanceKm
+        - estimatedMinutes
+        - riskLevel
+        - color
+
+    RouteResponse:
+      type: object
+      properties:
+        fastest:
+          $ref: "#/components/schemas/Route"
+        safest:
+          $ref: "#/components/schemas/Route"
+        timeOfDayRisk:
+          type: string
+          enum: [low, medium, high]
+      required:
+        - fastest
+        - safest
+        - timeOfDayRisk
+
+    RiskScoreResponse:
+      type: object
+      properties:
+        lat:
+          type: number
+        lng:
+          type: number
+        score:
+          type: number
+        level:
+          type: string
+          enum: [low, medium, high]
+        factors:
+          type: object
+          properties:
+            timeOfDay:
+              type: number
+            crimeIndex:
+              type: number
+            lighting:
+              type: number
+            crowdDensity:
+              type: number
+          required:
+            - timeOfDay
+            - crimeIndex
+            - lighting
+            - crowdDensity
+      required:
+        - lat
+        - lng
+        - score
+        - level
+        - factors
+
+    SosRequest:
+      type: object
+      properties:
+        lat:
+          type: number
+        lng:
+          type: number
+        userId:
+          type: string
+        message:
+          type: string
+      required:
+        - lat
+        - lng
+
+    SosResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        alertId:
+          type: string
+        message:
+          type: string
+        contactsNotified:
+          type: integer
+        timestamp:
+          type: string
+      required:
+        - success
+        - alertId
+        - message
+        - contactsNotified
+        - timestamp
+
+    UnsafeZone:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        radius:
+          type: number
+        riskLevel:
+          type: string
+          enum: [medium, high]
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - lat
+        - lng
+        - radius
+        - riskLevel
+        - description
+
+    UnsafeZonesResponse:
+      type: object
+      properties:
+        zones:
+          type: array
+          items:
+            $ref: "#/components/schemas/UnsafeZone"
+      required:
+        - zones
