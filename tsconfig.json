@@ -12,10 +12,8 @@
     {
       "path": "./lib/api-zod"
     }
-    ]
-    {
+  ],
   "compilerOptions": {
     "types": ["node"]
   }
 }
-
