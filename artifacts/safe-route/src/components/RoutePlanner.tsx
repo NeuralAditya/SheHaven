@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetRoute } from "@workspace/api-client-react";
-import { RouteResponse } from "@workspace/api-client-react/src/generated/api.schemas";
+import { RouteResponse } from "@workspace/api-client-react";
 import { MapPin, Navigation, Shield, Clock, AlertTriangle, Play, LocateFixed, Loader2, Footprints } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
