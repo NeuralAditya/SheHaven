@@ -22,7 +22,7 @@ catalogs:
       specifier: ^5.90.21
       version: 5.90.21
     '@types/node':
-      specifier: ^25.3.3
+      specifier: ^25.3.5
       version: 25.3.5
     '@types/react':
       specifier: ^19.2.0
@@ -156,7 +156,23 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.90.21(react@19.1.0)
+      drizzle-orm:
+        specifier: 'catalog:'
+        version: 0.45.1(@types/pg@8.18.0)(pg@8.20.0)
+      pg:
+        specifier: ^8.20.0
+        version: 8.20.0
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.3.5
       prettier:
         specifier: ^3.8.1
         version: 3.8.1

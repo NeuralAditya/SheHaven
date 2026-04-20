@@ -10,7 +10,14 @@
   },
   "private": true,
   "devDependencies": {
-    "typescript": "~5.9.2",
-    "prettier": "^3.8.1"
+    "@types/node": "catalog:",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "drizzle-orm": "catalog:",
+    "pg": "^8.20.0",
+    "zod": "catalog:"
   }
 }
