@@ -53,7 +53,7 @@ export function RiskScoreBadge({ currentLocation }: RiskScoreProps) {
                 <span className="text-muted-foreground">Time of Day Risk</span>
                 <span className="font-medium">{riskScore.factors.timeOfDay}/100</span>
               </div>
-              <Progress value={riskScore.factors.timeOfDay} className="h-1.5 bg-secondary" indicatorClassName={riskScore.factors.timeOfDay > 60 ? "bg-destructive" : "bg-emerald-500"} />
+              <Progress value={riskScore.factors.timeOfDay} className="h-1.5 bg-secondary" />
             </div>
             
             <div className="space-y-1.5">
@@ -61,7 +61,7 @@ export function RiskScoreBadge({ currentLocation }: RiskScoreProps) {
                 <span className="text-muted-foreground">Crime Index</span>
                 <span className="font-medium">{riskScore.factors.crimeIndex}/100</span>
               </div>
-              <Progress value={riskScore.factors.crimeIndex} className="h-1.5 bg-secondary" indicatorClassName={riskScore.factors.crimeIndex > 50 ? "bg-destructive" : "bg-emerald-500"} />
+              <Progress value={riskScore.factors.crimeIndex} className="h-1.5 bg-secondary" />
             </div>
 
             <div className="space-y-1.5">
@@ -69,7 +69,7 @@ export function RiskScoreBadge({ currentLocation }: RiskScoreProps) {
                 <span className="text-muted-foreground">Lighting Quality</span>
                 <span className="font-medium">{riskScore.factors.lighting}/100</span>
               </div>
-              <Progress value={riskScore.factors.lighting} className="h-1.5 bg-secondary" indicatorClassName={riskScore.factors.lighting < 40 ? "bg-destructive" : "bg-emerald-500"} />
+              <Progress value={riskScore.factors.lighting} className="h-1.5 bg-secondary" />
             </div>
 
             <div className="space-y-1.5">
@@ -77,7 +77,7 @@ export function RiskScoreBadge({ currentLocation }: RiskScoreProps) {
                 <span className="text-muted-foreground">Crowd Density</span>
                 <span className="font-medium">{riskScore.factors.crowdDensity}/100</span>
               </div>
-              <Progress value={riskScore.factors.crowdDensity} className="h-1.5 bg-secondary" indicatorClassName={riskScore.factors.crowdDensity < 30 ? "bg-destructive" : "bg-emerald-500"} />
+              <Progress value={riskScore.factors.crowdDensity} className="h-1.5 bg-secondary" />
             </div>
           </div>
           <p className="text-[10px] text-muted-foreground text-center pt-2 border-t">Powered by real-time predictive analytics</p>
