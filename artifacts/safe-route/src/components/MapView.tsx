@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
 import { useGetUnsafeZones } from "@workspace/api-client-react";
-import { Route } from "@workspace/api-client-react/src/generated/api.schemas";
+import { Route } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface MapProps {
