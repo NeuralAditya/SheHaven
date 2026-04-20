@@ -14,7 +14,7 @@ import { FakeCallScreen } from "@/components/FakeCallScreen";
 import { SplashScreen } from "@/components/SplashScreen";
 import { SheHavenLogo } from "@/components/SheHavenLogo";
 
-import { RouteResponse } from "@workspace/api-client-react/src/generated/api.schemas";
+import { RouteResponse } from "@workspace/api-client-react";
 
 const queryClient = new QueryClient();
 
