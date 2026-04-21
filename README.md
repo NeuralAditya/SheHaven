@@ -19,6 +19,9 @@ This project is a collaborative effort born from the necessity of safer streets 
 * **Unsafe Zone Alerts:** Uses geofencing to warn users via notifications or sound/vibration before they enter risky areas.
 * **Live Location Tracking:** Continuous monitoring to ensure accountability and track any deviations from the planned route.
 
+## Prototype Screenshot
+![SheHaven Prototype](/SheHavenPrototype.png)
+
 ## 🛠️ Technology Stack
 
 | Layer | Technology |
