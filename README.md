@@ -47,17 +47,15 @@ This project is a collaborative effort born from the necessity of safer streets 
 SheHaven is currently in the **prototype stage** and utilizes simulated datasets to represent high-risk and safe zones. It requires an active internet connection to provide real-time tracking and alerts.
 
 ## 🚀 Getting Started
-Clone the repository:
 
-Bash
+Clone the repository:
 git clone https://github.com/NeuralAditya/SheHaven.git
 
-Install dependencies:
-pnpm install
-# and
+# Install dependencies:
+pnpm installand
 pip install -r requirements.txt
 
-Run the application:
+# Run the application:
 Bash
 pnpm run dev
 
