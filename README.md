@@ -39,7 +39,7 @@ This project is a collaborative effort born from the necessity of safer streets 
 
 * Integration of AI-based crime prediction and real-world government crime datasets.
 * Connecting the SOS system directly to police APIs (such as 112 India).
-* Implementing voice-triggered SOS and smartwatch integration for hands-free assistance
+* Implementing voice-triggered SOS and smartwatch integration for hands-free assistance.
 * Creating a community reporting system for real-time safety updates from other users.
 
 ## ⚠️ Current Status
