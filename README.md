@@ -9,7 +9,7 @@
 This project is a collaborative effort born from the necessity of safer streets in India.
 
 **Concept & Ideation:** **Ariba Jaffer** served as the visionary, identifying the emotional stress and real-world gaps in current navigation tools that often ignore personal safety.
-**Engineering & Execution:** I translated Ariba's ideas into a technical reality, building the "Smart Safety Layer" that transforms navigation from a simple map into a protective tool.
+**Engineering & Execution:** Together we turned ideas into a technical reality, building the "Smart Safety Layer" that transforms navigation from a simple map into a protective tool.
 
 ## ✨ Key Features
 
@@ -31,9 +31,9 @@ This project is a collaborative effort born from the necessity of safer streets 
 
 ## 🏗️ System Architecture & Design
 
-* **Modular Design:** Separates the frontend and backend to ensure the system is scalable for future real-world integration[.
-* **Psychology-Driven UI:** Uses color psychology (Red for Alert, Green for Safe, Blue for Navigation) to ensure clarity during high-stress situations[.
-* **Rapid Prototyping:** Built using a "Build → Test → Improve" cycle to prioritize immediate functionality and safety-first interaction[.
+* **Modular Design:** Separates the frontend and backend to ensure the system is scalable for future real-world integration.
+* **Psychology-Driven UI:** Uses color psychology (Red for Alert, Green for Safe, Blue for Navigation) to ensure clarity during high-stress situations.
+* **Rapid Prototyping:** Built using a "Build → Test → Improve" cycle to prioritize immediate functionality and safety-first interaction.
 
 ## 📈 Future Scope
 
@@ -44,7 +44,22 @@ This project is a collaborative effort born from the necessity of safer streets 
 
 ## ⚠️ Current Status
 
-SheHaven is currently in the **prototype stage** and utilizes simulated datasets to represent high-risk and safe zones. It requires an active internet connection to provide real-time tracking and alerts
+SheHaven is currently in the **prototype stage** and utilizes simulated datasets to represent high-risk and safe zones. It requires an active internet connection to provide real-time tracking and alerts.
+
+## 🚀 Getting Started
+Clone the repository:
+
+Bash
+git clone https://github.com/NeuralAditya/SheHaven.git
+
+Install dependencies:
+pnpm install
+# and
+pip install -r requirements.txt
+
+Run the application:
+Bash
+pnpm run dev
 
 ---
 *© 2026 SheHaven Project*
